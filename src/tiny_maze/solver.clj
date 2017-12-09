@@ -74,11 +74,11 @@
     ; loop through paths
     (while @quit
       (def xy (nth @coords @i))
-      ; append unseen to paths
       (def path (getXY @paths xy))
       (for
         (neighbors xy @seen)
         (fn [tile]
+          ; record unseen tile
           (swap! coords #(conj % tile))
           (swap! seen #(conj % tile))
           (swap! paths #(setXY % tile (conj path tile)))
@@ -86,7 +86,7 @@
           (swap! quit #(or % (= tile end)))
         )
       )
-      ; ++
+      ; ++ to continue iteration of atom
       (swap! i inc)
     )
     ; reduce paths for :E coords to :x in maze
